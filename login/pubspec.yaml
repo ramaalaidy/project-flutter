@@ -1,0 +1,72 @@
+# Basic application configuration
+name: login
+description: "A new Flutter project."
+# Prevent accidental publishing to pub.dev
+publish_to: 'none'
+
+# Version information (1.0.0+1)
+version: 1.0.0+1
+
+# SDK constraints (Flutter 3.7.2+)
+environment:
+  sdk: ">=3.7.2 <4.0.0"  # Dart SDK version range
+
+# ===== Application Dependencies =====
+dependencies:
+  # Flutter SDK (required)
+  flutter:
+    sdk: flutter
+
+  # UI Packages
+  cupertino_icons: ^1.0.8  # iOS-style icons
+  font_awesome_flutter: ^10.5.0  # Font Awesome icons
+  flutter_rating_bar: ^4.0.1  # Rating widgets
+  flutter_svg: ^2.0.7  # SVG image support
+
+  # State Management & Utilities
+  provider: ^6.0.1
+  shared_preferences: ^2.2.2  # Local storage
+  intl: ^0.18.1  # Internationalization
+
+  # Network & Images
+  http: ^1.1.0  # HTTP requests
+  cached_network_image: ^3.3.0  # Cached network images
+  google_maps_flutter: ^2.2.6  # Google Maps integration
+
+  # App Flow
+  animated_splash_screen: ^1.3.0  # Animated splash screens
+
+# ===== Development Dependencies =====
+dev_dependencies:
+  # Testing
+  flutter_test:
+    sdk: flutter
+  
+  # Code quality & linting
+  flutter_lints: ^5.0.0  # Recommended lint rules
+
+# ===== Flutter-Specific Configuration =====
+flutter:
+  # Enable Material Design icons
+  uses-material-design: true
+
+  # Asset files configuration
+  assets:
+    - assets/images/AQ.png         # Application logo
+    - assets/images/17.jpeg        # Banner image 1
+    - assets/images/IMG_9421.jpg   # Wadi Rum image
+    - assets/images/1182728b0d17d4a20f5c7c4e22709b30.jpg  # Souvenir market
+    - assets/images/taxxx.jpg      # Transportation image
+    - assets/images/3.jpg          # Beach resort
+    - assets/images/13.webp        # Optimized web image
+    - assets/images/14.jpg         # Additional banner
+    - assets/images/20.jpg         # Secondary banner
+    - assets/images/fish.jpg
+    - assets/images/many.jpg
+    - assets/images/black.png
+    - assets/images/paypal.png
+
+
+
+
+    

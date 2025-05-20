@@ -37,14 +37,14 @@ class _HomeScreenState extends State<HomeScreen> {
     'Restaurants',
     'Activities',
     'Shopping',
-    'Transportation'
+    'Transportation',
   ];
 
   // Banner variables
   final PageController _bannerController = PageController();
   int _currentBanner = 0;
   final List<String> banners = [
-    'assets/images/3.jpg',       // Using existing images from your assets
+    'assets/images/3.jpg', // Using existing images from your assets
     'assets/images/17.jpeg',
     'assets/images/IMG_9421.jpg',
   ];
@@ -175,19 +175,12 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           Hero(
             tag: 'app-logo',
-            child: Image.asset(
-              'assets/images/AQ.png',
-              width: 40,
-              height: 40,
-            ),
+            child: Image.asset('assets/images/AQ.png', width: 40, height: 40),
           ),
           SizedBox(width: 10),
           Text(
             'Aqaba Explorer',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
-            ),
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
           ),
         ],
       ),
@@ -197,7 +190,10 @@ class _HomeScreenState extends State<HomeScreen> {
         IconButton(
           icon: Icon(Icons.search),
           onPressed: () {
-            showSearch(context: context, delegate: TourismSearchDelegate(featuredItems));
+            showSearch(
+              context: context,
+              delegate: TourismSearchDelegate(featuredItems),
+            );
           },
         ),
         IconButton(
@@ -235,20 +231,22 @@ class _HomeScreenState extends State<HomeScreen> {
             right: 0,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: banners.map((url) {
-                int index = banners.indexOf(url);
-                return Container(
-                  width: 8,
-                  height: 8,
-                  margin: EdgeInsets.symmetric(horizontal: 4),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: _currentBanner == index 
-                      ? Colors.white 
-                      : Colors.white.withOpacity(0.5),
-                  ),
-                );
-              }).toList(),
+              children:
+                  banners.map((url) {
+                    int index = banners.indexOf(url);
+                    return Container(
+                      width: 8,
+                      height: 8,
+                      margin: EdgeInsets.symmetric(horizontal: 4),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color:
+                            _currentBanner == index
+                                ? Colors.white
+                                : Colors.white.withOpacity(0.5),
+                      ),
+                    );
+                  }).toList(),
             ),
           ),
           Positioned(
@@ -284,7 +282,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         blurRadius: 10,
                         color: Colors.black,
                         offset: Offset(1, 1),
-                    )
+                      ),
                     ],
                   ),
                 ),
@@ -311,35 +309,38 @@ class _HomeScreenState extends State<HomeScreen> {
               });
             },
             child: Container(
-              width: 80,
+              width: 100,
               margin: EdgeInsets.only(left: index == 0 ? 15 : 0, right: 10),
               child: Column(
                 children: [
                   Container(
-                    width: 60,
-                    height: 60,
+                    width: 40,
+                    height: 40,
                     decoration: BoxDecoration(
-                      color: _selectedCategory == index 
-                        ? Colors.blue 
-                        : Colors.grey[200],
+                      color:
+                          _selectedCategory == index
+                              ? Colors.blue
+                              : Colors.grey[200],
                       borderRadius: BorderRadius.circular(15),
                     ),
                     child: Icon(
                       _getCategoryIcon(categories[index]),
-                      color: _selectedCategory == index 
-                        ? Colors.white 
-                        : Colors.blue,
+                      color:
+                          _selectedCategory == index
+                              ? Colors.white
+                              : Colors.blue,
                       size: 30,
                     ),
                   ),
-                  SizedBox(height: 5),
+                  SizedBox(height: 10),
                   Text(
                     categories[index],
                     style: TextStyle(
                       fontSize: 12,
-                      fontWeight: _selectedCategory == index 
-                        ? FontWeight.bold 
-                        : FontWeight.normal,
+                      fontWeight:
+                          _selectedCategory == index
+                              ? FontWeight.bold
+                              : FontWeight.normal,
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -420,11 +421,10 @@ class _HomeScreenState extends State<HomeScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                _selectedCategory == 0 ? 'Featured' : categories[_selectedCategory],
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
+                _selectedCategory == 0
+                    ? 'Featured'
+                    : categories[_selectedCategory],
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               if (filteredItems.length > 4)
                 TextButton(
@@ -432,11 +432,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => CategoryItemsScreen(
-                          title: categories[_selectedCategory],
-                          items: filteredItems,
-                          onFavoriteToggle: _toggleFavorite,
-                        ),
+                        builder:
+                            (context) => CategoryItemsScreen(
+                              title: categories[_selectedCategory],
+                              items: filteredItems,
+                              onFavoriteToggle: _toggleFavorite,
+                            ),
                       ),
                     );
                   },
@@ -448,8 +449,9 @@ class _HomeScreenState extends State<HomeScreen> {
           LayoutBuilder(
             builder: (context, constraints) {
               int crossAxisCount = constraints.maxWidth > 600 ? 3 : 2;
-              double childAspectRatio = constraints.maxWidth > 600 ? 0.85 : 0.75;
-              
+              double childAspectRatio =
+                  constraints.maxWidth > 600 ? 0.85 : 0.75;
+
               return GridView.builder(
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
@@ -473,8 +475,8 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildPopularSection() {
-    final popularActivities = featuredItems.where((item) => 
-      item['type'] == 'Activities').toList();
+    final popularActivities =
+        featuredItems.where((item) => item['type'] == 'Activities').toList();
 
     return Padding(
       padding: EdgeInsets.all(15),
@@ -483,10 +485,7 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           Text(
             'Popular Activities',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
           SizedBox(height: 10),
           Container(
@@ -512,9 +511,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildItemCard(Map<String, dynamic> item) {
     return Card(
       elevation: 3,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       child: InkWell(
         borderRadius: BorderRadius.circular(15),
         onTap: () {
@@ -539,7 +536,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   right: 8,
                   child: IconButton(
                     icon: Icon(
-                      item['isFavorite'] ? Icons.favorite : Icons.favorite_border,
+                      item['isFavorite']
+                          ? Icons.favorite
+                          : Icons.favorite_border,
                       color: item['isFavorite'] ? Colors.red : Colors.white,
                     ),
                     onPressed: () {
@@ -562,10 +561,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         SizedBox(width: 4),
                         Text(
                           '${item['rating']}',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 12,
-                          ),
+                          style: TextStyle(color: Colors.white, fontSize: 12),
                         ),
                       ],
                     ),
@@ -580,19 +576,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   Text(
                     item['title'],
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: TextStyle(fontWeight: FontWeight.bold),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
                   SizedBox(height: 4),
                   Text(
                     item['location'],
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 12,
-                    ),
+                    style: TextStyle(color: Colors.grey, fontSize: 12),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -628,103 +619,100 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-Widget _buildActivityCard(Map<String, dynamic> activity) {
-  return Card(
-    elevation: 3,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(15),
-    ),
-    child: InkWell(
-      borderRadius: BorderRadius.circular(15),
-      onTap: () {
-        _showItemDetails(context, activity);
-      },
-      child: Stack(
-        children: [
-          // ... (keep all your existing stack children)
-
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: Container(
-              padding: EdgeInsets.all(15),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(15),
-                  bottomRight: Radius.circular(15),
+  Widget _buildActivityCard(Map<String, dynamic> activity) {
+    return Card(
+      elevation: 3,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(15),
+        onTap: () {
+          _showItemDetails(context, activity);
+        },
+        child: Stack(
+          children: [
+            // ... (keep all your existing stack children)
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: Container(
+                padding: EdgeInsets.all(15),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(15),
+                    bottomRight: Radius.circular(15),
+                  ),
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [Colors.transparent, Colors.black.withOpacity(0.8)],
+                  ),
                 ),
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Colors.transparent,
-                    Colors.black.withOpacity(0.8),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // ... (keep other content)
+                    SizedBox(height: 10),
+                    Row(
+                      children: [
+                        if (activity['price'] > 0)
+                          Text(
+                            '\$${activity['price']}',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                          )
+                        else
+                          Text(
+                            'Free',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                          ),
+                        Spacer(),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder:
+                                    (context) => BookingPage(item: activity),
+                              ),
+                            );
+                          },
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 6,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.blue,
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Text(
+                              'Book Now',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // ... (keep other content)
-
-                  SizedBox(height: 10),
-                  Row(
-                    children: [
-                      if (activity['price'] > 0)
-                        Text(
-                          '\$${activity['price']}',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                          ),
-                        )
-                      else
-                        Text(
-                          'Free',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                          ),
-                        ),
-                      Spacer(),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => BookingPage(item: activity),
-                            ),
-                          );
-                        },
-                        child: Container(
-                          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                          decoration: BoxDecoration(
-                            color: Colors.blue,
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Text(
-                            'Book Now',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 12,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
-    ),
-  );
-}
+    );
+  }
 
   void _showFilterDialog(BuildContext context) {
     showDialog(
@@ -738,7 +726,9 @@ Widget _buildActivityCard(Map<String, dynamic> activity) {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text('Price Range: \$${_priceRange.start.round()} - \$${_priceRange.end.round()}'),
+                    Text(
+                      'Price Range: \$${_priceRange.start.round()} - \$${_priceRange.end.round()}',
+                    ),
                     RangeSlider(
                       values: _priceRange,
                       min: 0,
@@ -809,56 +799,53 @@ Widget _buildActivityCard(Map<String, dynamic> activity) {
     );
   }
 
- void _showItemDetails(BuildContext context, Map<String, dynamic> item) {
-  showModalBottomSheet(
-    context: context,
-    isScrollControlled: true,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
-    ),
-    builder: (context) {
-      return SingleChildScrollView(
-        child: Container(
-          padding: EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              // ... (keep all your existing content)
-
-              SizedBox(height: 30),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.symmetric(vertical: 15),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                  onPressed: () {
-                    Navigator.pop(context); // Close the bottom sheet
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => BookingPage(item: item),
+  void _showItemDetails(BuildContext context, Map<String, dynamic> item) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
+      ),
+      builder: (context) {
+        return SingleChildScrollView(
+          child: Container(
+            padding: EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // ... (keep all your existing content)
+                SizedBox(height: 30),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      padding: EdgeInsets.symmetric(vertical: 15),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
                       ),
-                    );
-                  },
-                  child: Text(
-                    'Book Now',
-                    style: TextStyle(fontSize: 18),
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context); // Close the bottom sheet
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => BookingPage(item: item),
+                        ),
+                      );
+                    },
+                    child: Text('Book Now', style: TextStyle(fontSize: 18)),
                   ),
                 ),
-              ),
-              SizedBox(height: 20),
-            ],
+                SizedBox(height: 20),
+              ],
+            ),
           ),
-        ),
-      );
-    },
-  );
-}
+        );
+      },
+    );
+  }
+
   void _toggleFavorite(Map<String, dynamic> item) {
     setState(() {
       item['isFavorite'] = !item['isFavorite'];
@@ -866,25 +853,33 @@ Widget _buildActivityCard(Map<String, dynamic> activity) {
   }
 
   List<Map<String, dynamic>> _getFilteredItems() {
-    List<Map<String, dynamic>> filteredItems = _selectedCategory == 0
-        ? List.from(featuredItems)
-        : featuredItems.where((item) => 
-            item['type'] == categories[_selectedCategory]).toList();
+    List<Map<String, dynamic>> filteredItems =
+        _selectedCategory == 0
+            ? List.from(featuredItems)
+            : featuredItems
+                .where((item) => item['type'] == categories[_selectedCategory])
+                .toList();
 
     // Apply price filter
-    filteredItems = filteredItems.where((item) => 
-      item['price'] >= _priceRange.start && item['price'] <= _priceRange.end).toList();
+    filteredItems =
+        filteredItems
+            .where(
+              (item) =>
+                  item['price'] >= _priceRange.start &&
+                  item['price'] <= _priceRange.end,
+            )
+            .toList();
 
     // Apply rating filter
     if (_minRating > 0) {
-      filteredItems = filteredItems.where((item) => 
-        item['rating'] >= _minRating).toList();
+      filteredItems =
+          filteredItems.where((item) => item['rating'] >= _minRating).toList();
     }
 
     // Apply favorites filter
     if (_showFavoritesOnly) {
-      filteredItems = filteredItems.where((item) => 
-        item['isFavorite']).toList();
+      filteredItems =
+          filteredItems.where((item) => item['isFavorite']).toList();
     }
 
     return filteredItems;
@@ -905,9 +900,7 @@ class CategoryItemsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-      ),
+      appBar: AppBar(title: Text(title)),
       body: Padding(
         padding: EdgeInsets.all(15),
         child: GridView.builder(
@@ -930,9 +923,7 @@ class CategoryItemsScreen extends StatelessWidget {
   Widget _buildItemCard(Map<String, dynamic> item, BuildContext context) {
     return Card(
       elevation: 3,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       child: InkWell(
         borderRadius: BorderRadius.circular(15),
         onTap: () {
@@ -957,7 +948,9 @@ class CategoryItemsScreen extends StatelessWidget {
                   right: 8,
                   child: IconButton(
                     icon: Icon(
-                      item['isFavorite'] ? Icons.favorite : Icons.favorite_border,
+                      item['isFavorite']
+                          ? Icons.favorite
+                          : Icons.favorite_border,
                       color: item['isFavorite'] ? Colors.red : Colors.white,
                     ),
                     onPressed: () {
@@ -980,10 +973,7 @@ class CategoryItemsScreen extends StatelessWidget {
                         SizedBox(width: 4),
                         Text(
                           '${item['rating']}',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 12,
-                          ),
+                          style: TextStyle(color: Colors.white, fontSize: 12),
                         ),
                       ],
                     ),
@@ -998,19 +988,14 @@ class CategoryItemsScreen extends StatelessWidget {
                 children: [
                   Text(
                     item['title'],
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: TextStyle(fontWeight: FontWeight.bold),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
                   SizedBox(height: 4),
                   Text(
                     item['location'],
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 12,
-                    ),
+                    style: TextStyle(color: Colors.grey, fontSize: 12),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -1088,7 +1073,9 @@ class CategoryItemsScreen extends StatelessWidget {
                       right: 10,
                       child: IconButton(
                         icon: Icon(
-                          item['isFavorite'] ? Icons.favorite : Icons.favorite_border,
+                          item['isFavorite']
+                              ? Icons.favorite
+                              : Icons.favorite_border,
                           color: item['isFavorite'] ? Colors.red : Colors.white,
                           size: 30,
                         ),
@@ -1103,10 +1090,7 @@ class CategoryItemsScreen extends StatelessWidget {
                 SizedBox(height: 20),
                 Text(
                   item['title'],
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 10),
                 Row(
@@ -1115,10 +1099,7 @@ class CategoryItemsScreen extends StatelessWidget {
                     SizedBox(width: 5),
                     Text(
                       item['location'],
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.grey[600],
-                      ),
+                      style: TextStyle(fontSize: 16, color: Colors.grey[600]),
                     ),
                     Spacer(),
                     Icon(Icons.star, color: Colors.amber),
@@ -1135,18 +1116,12 @@ class CategoryItemsScreen extends StatelessWidget {
                 SizedBox(height: 20),
                 Text(
                   'Description',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 10),
                 Text(
                   item['description'],
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.grey[700],
-                  ),
+                  style: TextStyle(fontSize: 16, color: Colors.grey[700]),
                 ),
                 SizedBox(height: 20),
                 if (item['price'] > 0)
@@ -1178,10 +1153,7 @@ class CategoryItemsScreen extends StatelessWidget {
                       ),
                     ),
                     onPressed: () {},
-                    child: Text(
-                      'Book Now',
-                      style: TextStyle(fontSize: 18),
-                    ),
+                    child: Text('Book Now', style: TextStyle(fontSize: 18)),
                   ),
                 ),
                 SizedBox(height: 20),
@@ -1232,21 +1204,30 @@ class TourismSearchDelegate extends SearchDelegate {
   }
 
   Widget _buildSearchResults() {
-    final List<Map<String, dynamic>> searchResults = query.isEmpty
-        ? items
-        : items.where((item) =>
-            item['title'].toLowerCase().contains(query.toLowerCase()) ||
-            item['description'].toLowerCase().contains(query.toLowerCase()) ||
-            item['location'].toLowerCase().contains(query.toLowerCase())).toList();
+    final List<Map<String, dynamic>> searchResults =
+        query.isEmpty
+            ? items
+            : items
+                .where(
+                  (item) =>
+                      item['title'].toLowerCase().contains(
+                        query.toLowerCase(),
+                      ) ||
+                      item['description'].toLowerCase().contains(
+                        query.toLowerCase(),
+                      ) ||
+                      item['location'].toLowerCase().contains(
+                        query.toLowerCase(),
+                      ),
+                )
+                .toList();
 
     return ListView.builder(
       itemCount: searchResults.length,
       itemBuilder: (context, index) {
         final item = searchResults[index];
         return ListTile(
-          leading: CircleAvatar(
-            backgroundImage: AssetImage(item['image']),
-          ),
+          leading: CircleAvatar(backgroundImage: AssetImage(item['image'])),
           title: Text(item['title']),
           subtitle: Text(item['location']),
           trailing: Text('\$${item['price']}'),
@@ -1259,49 +1240,12 @@ class TourismSearchDelegate extends SearchDelegate {
   }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-class MainScreen extends StatefulWidget {
-  const MainScreen({Key? key}) : super(key: key);
-
-  @override
-  State<MainScreen> createState() => _MainScreenState();
-}
-
-class _MainScreenState extends State<MainScreen> {
+class _MainScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
 
   final List<Widget> _pages = [
-    HomeScreen(),         // صفحتك الرئيسية
-    ProfileScreen(),      // صفحة البروفايل
+    HomeScreen(), // تأكد أن HomeScreen لا يحتوي على Scaffold
+    ProfileScreen(),
   ];
 
   @override
@@ -1315,17 +1259,9 @@ class _MainScreenState extends State<MainScreen> {
             _currentIndex = index;
           });
         },
-        selectedItemColor: Colors.blue,
-        unselectedItemColor: Colors.grey,
         items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'الرئيسية',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'الحساب',
-          ),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
         ],
       ),
     );

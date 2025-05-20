@@ -1,27 +1,47 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-const List<Map<String, dynamic>> aqabaLocations = [
-  {
-    'id': 1,
-    'title': 'Aqaba Fort',
-    'type': 'Historical Site',
-    'lat': 29.5265,
-    'lng': 35.0078,
-  },
-  {
-    'id': 2,
-    'title': 'Aqaba Marine Park',
-    'type': 'Nature',
-    'lat': 29.4562,
-    'lng': 34.9793,
-  },
+// Model for Location
+class AqabaLocation {
+  final int id;
+  final String title;
+  final String type;
+  final double lat;
+  final double lng;
+
+  AqabaLocation({
+    required this.id,
+    required this.title,
+    required this.type,
+    required this.lat,
+    required this.lng,
+  });
+
+  LatLng get latLng => LatLng(lat, lng);
+}
+
+// List of locations in Aqaba
+final List<AqabaLocation> aqabaLocations = [
+  AqabaLocation(
+    id: 1,
+    title: 'Aqaba Fort',
+    type: 'Historical Site',
+    lat: 29.5265,
+    lng: 35.0078,
+  ),
+  AqabaLocation(
+    id: 2,
+    title: 'Aqaba Marine Park',
+    type: 'Nature',
+    lat: 29.4562,
+    lng: 34.9793,
+  ),
 ];
 
 class MapScreen extends StatefulWidget {
-  final List<Map<String, dynamic>> locations;
+  final List<AqabaLocation> locations;
 
-  const MapScreen({required this.locations});
+  const MapScreen({Key? key, required this.locations}) : super(key: key);
 
   @override
   _MapScreenState createState() => _MapScreenState();
@@ -29,12 +49,30 @@ class MapScreen extends StatefulWidget {
 
 class _MapScreenState extends State<MapScreen> {
   late GoogleMapController mapController;
+  late CameraPosition _initialCameraPosition;
 
-  // Initial camera position
-  static const LatLng _center = LatLng(29.5319, 35.0061);
-  
+  @override
+  void initState() {
+    super.initState();
+    _initialCameraPosition = CameraPosition(
+      target: widget.locations.isNotEmpty
+          ? widget.locations.first.latLng
+          : LatLng(29.5319, 35.0061),
+      zoom: 14,
+    );
+  }
+
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
+  }
+
+  void _onMarkerTapped(AqabaLocation location) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('${location.title} - ${location.type}'),
+        duration: Duration(seconds: 2),
+      ),
+    );
   }
 
   @override
@@ -42,29 +80,28 @@ class _MapScreenState extends State<MapScreen> {
     return Scaffold(
       appBar: AppBar(title: Text('Explore Aqaba')),
       body: widget.locations.isEmpty
-          ? Center(child: Text('No locations available'))
+          ? Center(child: Text('لا توجد مواقع متاحة'))
           : GoogleMap(
               onMapCreated: _onMapCreated,
-              initialCameraPosition: CameraPosition(
-                target: _center,
-                zoom: 14,
-              ),
-              markers: widget.locations.map((location) {
-                return Marker(
-                  markerId: MarkerId(location['id'].toString()),
-                  position: LatLng(location['lat'], location['lng']),
-                  infoWindow: InfoWindow(
-                    title: location['title'],
-                    snippet: location['type'],
-                  ),
-                );
-              }).toSet(),
+              initialCameraPosition: _initialCameraPosition,
+              markers: widget.locations
+                  .map((location) => Marker(
+                        markerId: MarkerId(location.id.toString()),
+                        position: location.latLng,
+                        infoWindow: InfoWindow(
+                          title: location.title,
+                          snippet: location.type,
+                        ),
+                        onTap: () => _onMarkerTapped(location),
+                      ))
+                  .toSet(),
             ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // Move camera to the user's location or a default position
+          // Move camera to the default center
           mapController.animateCamera(
-            CameraUpdate.newLatLngZoom(_center, 14),
+            CameraUpdate.newLatLngZoom(
+                LatLng(29.5319, 35.0061), 14),
           );
         },
         child: Icon(Icons.my_location),

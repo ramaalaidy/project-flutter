@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:login/services/api_service.dart'; // غيّر المسار حسب مشروعك
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -9,6 +10,12 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   final GlobalKey<FormState> keyform = GlobalKey<FormState>();
+  final ApiService apiService = ApiService();
+
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -17,8 +24,8 @@ class _LoginState extends State<Login> {
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Color(0xFFB2EBF2), // أزرق فاتح كالماء
-              Color.fromARGB(255, 35, 104, 215), // سماوي ناعم
+              Color(0xFFB2EBF2),
+              Color.fromARGB(255, 35, 104, 215),
             ],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
@@ -32,7 +39,7 @@ class _LoginState extends State<Login> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
-              color: Colors.white, // لون المربع أصبح أبيض
+              color: Colors.white,
               child: Padding(
                 padding: const EdgeInsets.all(30.0),
                 child: Column(
@@ -44,6 +51,7 @@ class _LoginState extends State<Login> {
                       child: Column(
                         children: [
                           TextFormField(
+                            controller: emailController,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return "Please enter your email";
@@ -66,6 +74,7 @@ class _LoginState extends State<Login> {
                           ),
                           const SizedBox(height: 15),
                           TextFormField(
+                            controller: passwordController,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return "Please enter your password";
@@ -85,27 +94,45 @@ class _LoginState extends State<Login> {
                             ),
                           ),
                           const SizedBox(height: 25),
-                          ElevatedButton(
-                            onPressed: () {
-                              if (keyform.currentState!.validate()) {
-                                // بعد نجاح التحقق من المدخلات
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(content: Text("Logging in...")),
-                                );
+                          isLoading
+                              ? const CircularProgressIndicator()
+                              : ElevatedButton(
+                                  onPressed: () async {
+                                    if (keyform.currentState!.validate()) {
+                                      setState(() {
+                                        isLoading = true;
+                                      });
 
-                                // الانتقال لصفحة الهوم بعد تسجيل الدخول
-                                Navigator.pushReplacementNamed(context, '/home');
-                              }
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFF0288D1),
-                              padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                            ),
-                            child: const Text("Login", style: TextStyle(fontSize: 16, color: Colors.white)),
-                          ),
+                                      final response = await apiService.login(
+                                        emailController.text.trim(),
+                                        passwordController.text,
+                                      );
+
+                                      setState(() {
+                                        isLoading = false;
+                                      });
+
+                                      if (response['success']) {
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          const SnackBar(content: Text("Login successful")),
+                                        );
+                                        Navigator.pushReplacementNamed(context, '/home');
+                                      } else {
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          SnackBar(content: Text(response['message'] ?? 'Login failed')),
+                                        );
+                                      }
+                                    }
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: const Color(0xFF0288D1),
+                                    padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                  ),
+                                  child: const Text("Login", style: TextStyle(fontSize: 16, color: Colors.white)),
+                                ),
                           const SizedBox(height: 10),
                           TextButton(
                             onPressed: () {

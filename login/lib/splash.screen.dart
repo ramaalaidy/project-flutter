@@ -10,7 +10,7 @@ class SplashScreen extends StatelessWidget {
       nextScreen: WelcomePage(),
       splashTransition: SplashTransition.fadeTransition,
       backgroundColor: Colors.blueAccent,
-      duration: 5000,
+      duration: 3000,
     );
   }
 }
